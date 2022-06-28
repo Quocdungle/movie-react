@@ -43,6 +43,10 @@ const Header = () => {
             window.removeEventListener('scroll', shrinkHeader);
         };
     }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return () => {};
+    }, [active]);
     return (
         <div ref={headerRef} className="header">
             <div className="header__wrap container">
