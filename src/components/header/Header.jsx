@@ -1,10 +1,17 @@
-import React, { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import './header.scss';
 
-import logo from '../../assets/tmovie.png';
 import { useEffect } from 'react';
+import logo from '../../assets/d-dmovie.png';
+import Button from '../button/Button';
+
+//material ui
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import Register from '../../auth/components/register/Register';
 
 const headerNav = [
     {
@@ -26,6 +33,17 @@ const Header = () => {
     const headerRef = useRef(null);
 
     const active = headerNav.findIndex((e) => e.path === pathname);
+
+    //material ui
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     useEffect(() => {
         const shrinkHeader = () => {
@@ -51,8 +69,10 @@ const Header = () => {
         <div ref={headerRef} className="header">
             <div className="header__wrap container">
                 <div className="logo">
-                    <img src={logo} alt="" />
-                    <Link to="/">tMovies</Link>
+                    <Link to="/">
+                        <img src={logo} alt="" />
+                    </Link>
+                    <Link to="/">DMovies</Link>
                 </div>
                 <ul className="header__nav">
                     {headerNav.map((e, i) => (
@@ -63,6 +83,31 @@ const Header = () => {
                             <Link to={e.path}>{e.display}</Link>
                         </li>
                     ))}
+                    <li>
+                        <Button className="small" onClick={handleClickOpen}>
+                            Login
+                        </Button>
+                        <Dialog
+                            disableBackdropClick
+                            disableEscapeKeyDown
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="form-dialog-title"
+                        >
+                            <DialogContent>
+                                <Register />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    className="small"
+                                    onClick={handleClose}
+                                    color="primary"
+                                >
+                                    Cancel
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -7,6 +7,7 @@
     @include flex(center, unset);
 
     img {
+        @include flex(center, center);
         margin-right: 10px;
         width: 50px;
 
