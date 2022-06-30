@@ -44,40 +44,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const RegisterForm = (props) => {
+const LoginForm = (props) => {
     const classes = useStyles();
 
     const schema = yup.object().shape({
-        firstName: yup.string().required('Please enter your full name'),
-        // .test(
-        //     'should has at least 2 words',
-        //     'Please enter at least 2 words',
-        //     (value) => {
-        //         return value.split(' ').length >= 2;
-        //     },
-        // ),
-        lastName: yup.string().required('Please enter your full name'),
-        email: yup
+        identifier: yup
             .string()
             .required('Please enter your email')
             .email('Please enter a valid email address'),
-        password: yup
-            .string()
-            .required('Please enter your password')
-            .min(6, 'Please enter at least 6 characters'),
-        retypePassword: yup
-            .string()
-            .required('Please enter retype password')
-            .oneOf([yup.ref('password')], 'Password does not match'),
+        password: yup.string().required('Please enter your password'),
     });
 
     const form = useForm({
         defaultValues: {
-            firstName: '',
-            lastName: '',
-            email: '',
+            identifier: '',
             password: '',
-            retypePassword: '',
         },
         resolver: yupResolver(schema),
     });
@@ -97,58 +78,30 @@ const RegisterForm = (props) => {
             </div>
 
             <Typography component="h3" variant="h5" className={classes.title}>
-                Sign Up
+                Sign In
             </Typography>
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className={classes.form}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <div style={{ width: '48%' }}>
-                        <InputField
-                            name="firstName"
-                            label="First Name"
-                            form={form}
-                        />
-                    </div>
-                    <div style={{ width: '48%' }}>
-                        <InputField
-                            name="lastName"
-                            label="Last Name"
-                            form={form}
-                        />
-                    </div>
-                </Box>
-                <InputField name="email" label="Email" form={form} />
+                <InputField name="identifier" label="Email" form={form} />
 
                 <PasswordField name="password" label="Password" form={form} />
-
-                <PasswordField
-                    name="retypePassword"
-                    label="Retype Password"
-                    form={form}
-                />
 
                 <Button
                     disabled={isSubmitting}
                     type="submit"
                     className={`btn-fullwidth ${classes.submit}`}
                 >
-                    Sign Up
+                    Sign In
                 </Button>
             </form>
         </div>
     );
 };
 
-RegisterForm.propTypes = {
+LoginForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
 };
 
-export default RegisterForm;
+export default LoginForm;
